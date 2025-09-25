@@ -4,11 +4,11 @@
         "version": "PLCN_v2",
         "update_url": null
     },
-    "exported_at": "2025-09-25T15:00:00+00:00",
-    "name": "DiscordMusicBot",
+    "exported_at": "2025-09-25T15:30:00+00:00",
+    "name": "Discord-MusicBot + Lavalink",
     "author": "auto@egg",
-    "uuid": "983b1fac-d322-4d5f-a636-436127326b37",
-    "description": "Автоматизированный Discord-MusicBot (SudhanPlayz) с локальным Lavalink. Пользователю нужно только ввести токен и ID.",
+    "uuid": "d8f7a1bc-1234-4567-89ab-cdef12345678",
+    "description": "Автоматизированный Discord-MusicBot с локальным Lavalink. Пользователю нужно только ввести токен и ID.",
     "tags": [],
     "features": [
         "pid_limit"
@@ -26,8 +26,8 @@
     },
     "scripts": {
         "installation": {
-            "script": "#!/bin/ash\n\n# Установка зависимостей\napk add --no-cache git curl nodejs npm openjdk17\n\ncd /mnt/server\n\n# Клонируем бота\nrm -rf Discord-MusicBot\ngit clone https://github.com/SudhanPlayz/Discord-MusicBot.git\ncd Discord-MusicBot\nnpm install\n\n# Скачиваем Lavalink\ncd /mnt/server\nmkdir lavalink\ncd lavalink\ncurl -L https://github.com/freyacodes/Lavalink/releases/latest/download/Lavalink.jar -o Lavalink.jar\n\n# Создаём application.yml с переменными окружения\ncat > application.yml <<EOL\nserver:\n  port: ${SERVER_PORT}\nlavalink:\n  server:\n    password: \"${LAVALINK_PASSWORD}\"\nspring:\n  main:\n    banner-mode: \"off\"\nEOL\n\n# Стартовый скрипт\ncd /mnt/server\ncat > start.sh <<'EOF'\n#!/bin/bash\ncd /mnt/server/lavalink\njava -jar Lavalink.jar &\ncd /mnt/server/Discord-MusicBot\nnpm run deploy || true\nnode index.js\nEOF\nchmod +x start.sh",
-            "container": "ghcr.io/pterodactyl/installers:alpine",
+            "script": "#!/bin/ash\napk add --no-cache git curl nodejs npm openjdk17\ncd /mnt/server\nrm -rf Discord-MusicBot\ngit clone https://github.com/SudhanPlayz/Discord-MusicBot.git\ncd Discord-MusicBot\nnpm install\ncd /mnt/server\nmkdir lavalink\ncd lavalink\ncurl -L https://github.com/freyacodes/Lavalink/releases/latest/download/Lavalink.jar -o Lavalink.jar\ncat > application.yml <<EOL\nserver:\n  port: {{server.allocations.default.port}}\nlavalink:\n  server:\n    password: \"${LAVALINK_PASSWORD}\"\nspring:\n  main:\n    banner-mode: \"off\"\nEOL\ncd /mnt/server\ncat > start.sh <<'EOF'\n#!/bin/bash\ncd /mnt/server/lavalink\njava -jar Lavalink.jar &\ncd /mnt/server/Discord-MusicBot\nnpm run deploy || true\nnode index.js\nEOF\nchmod +x start.sh",
+            "container": "ghcr.io/parkervcp/installers:alpine",
             "entrypoint": "ash"
         }
     },
@@ -39,7 +39,10 @@
             "default_value": "",
             "user_viewable": true,
             "user_editable": true,
-            "required": true,
+            "rules": [
+                "required",
+                "string"
+            ],
             "sort": 1
         },
         {
@@ -49,7 +52,10 @@
             "default_value": "",
             "user_viewable": true,
             "user_editable": true,
-            "required": true,
+            "rules": [
+                "required",
+                "string"
+            ],
             "sort": 2
         },
         {
@@ -59,7 +65,10 @@
             "default_value": "",
             "user_viewable": true,
             "user_editable": true,
-            "required": true,
+            "rules": [
+                "required",
+                "string"
+            ],
             "sort": 3
         },
         {
@@ -69,7 +78,10 @@
             "default_value": "",
             "user_viewable": true,
             "user_editable": true,
-            "required": true,
+            "rules": [
+                "required",
+                "string"
+            ],
             "sort": 4
         },
         {
@@ -79,7 +91,10 @@
             "default_value": "changeme",
             "user_viewable": true,
             "user_editable": true,
-            "required": true,
+            "rules": [
+                "required",
+                "string"
+            ],
             "sort": 5
         }
     ]
