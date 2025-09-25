@@ -39,7 +39,8 @@
             "default_value": "",
             "user_viewable": true,
             "user_editable": true,
-            "required": true
+            "required": true,
+            "sort": 1
         },
         {
             "name": "CLIENT_ID",
@@ -48,7 +49,8 @@
             "default_value": "",
             "user_viewable": true,
             "user_editable": true,
-            "required": true
+            "required": true,
+            "sort": 2
         },
         {
             "name": "CLIENT_SECRET",
@@ -57,7 +59,8 @@
             "default_value": "",
             "user_viewable": true,
             "user_editable": true,
-            "required": true
+            "required": true,
+            "sort": 3
         },
         {
             "name": "ADMIN_ID",
@@ -66,7 +69,8 @@
             "default_value": "",
             "user_viewable": true,
             "user_editable": true,
-            "required": true
+            "required": true,
+            "sort": 4
         },
         {
             "name": "LAVALINK_PASSWORD",
@@ -75,7 +79,8 @@
             "default_value": "changeme",
             "user_viewable": true,
             "user_editable": true,
-            "required": true
+            "required": true,
+            "sort": 5
         }
     ]
 }
