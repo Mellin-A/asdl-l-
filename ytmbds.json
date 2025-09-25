@@ -7,7 +7,7 @@
 	"exported_at": "2025-09-25T15:00:00+00:00",
 	"name": "Discord-MusicBot + Lavalink",
 	"author": "generated@example.com",
-	"uuid": "a1b2c3d4-e5f6-4789-abcd-1234567890ab",
+	"uuid": "d8f7a1bc-1234-4567-89ab-cdef12345678",
 	"description": "MusicBot Discord bot with Lavalink support, ready for Pterodactyl. Just fill in the Discord token and IDs.",
 	"tags": ["discord", "music", "bot", "lavalink"],
 	"features": ["pid_limit"],
