@@ -1,0 +1,70 @@
+{
+  "name": "Discord-MusicBot + Lavalink Auto",
+  "author": "auto@egg",
+  "description": "Полностью автоматизированный Discord-MusicBot с Lavalink. Пользователю нужно только ввести токен и ID.",
+  "docker_images": {
+    "Node16-Java17": "ghcr.io/pterodactyl/yolks:nodejs_16-openjdk_17"
+  },
+  "startup": "bash /home/container/start.sh",
+  "config": {
+    "files": {},
+    "startup": {
+      "done": "Started Launcher"
+    },
+    "stop": "stop"
+  },
+  "scripts": {
+    "installation": {
+      "script": "#!/bin/bash\napt-get update -y\napt-get install -y git curl\ncd /mnt/server\n# Клонируем бот\nrm -rf Discord-MusicBot\n git clone https://github.com/SudhanPlayz/Discord-MusicBot.git\ncd Discord-MusicBot\nnpm install\n# Скачиваем Lavalink\ncd /mnt/server\nmkdir lavalink\ncd lavalink\ncurl -L https://github.com/freyacodes/Lavalink/releases/latest/download/Lavalink.jar -o Lavalink.jar\n# Создаём application.yml с переменными окружения\ncat > application.yml <<EOL\nserver:\n  port: ${SERVER_PORT}\nlavalink:\n  server:\n    password: \"${LAVALINK_PASSWORD}\"\nspring:\n  main:\n    banner-mode: \"off\"\nEOL\n# Создаём стартовый скрипт\ncd /mnt/server\ncat > start.sh <<'EOF'\n#!/bin/bash\ncd /mnt/server/lavalink\njava -jar Lavalink.jar &\ncd /mnt/server/Discord-MusicBot\nnpm run deploy || true\nnode index.js\nEOF\nchmod +x start.sh",
+      "container": "ghcr.io/pterodactyl/installers:debian",
+      "entrypoint": "bash"
+    }
+  },
+  "variables": [
+    {
+      "name": "BOT_TOKEN",
+      "description": "Discord Bot Token",
+      "env_variable": "BOT_TOKEN",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "required": true
+    },
+    {
+      "name": "CLIENT_ID",
+      "description": "Discord Application Client ID",
+      "env_variable": "CLIENT_ID",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "required": true
+    },
+    {
+      "name": "CLIENT_SECRET",
+      "description": "Discord Application Client Secret",
+      "env_variable": "CLIENT_SECRET",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "required": true
+    },
+    {
+      "name": "ADMIN_ID",
+      "description": "Ваш Discord ID (для админки бота)",
+      "env_variable": "ADMIN_ID",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "required": true
+    },
+    {
+      "name": "LAVALINK_PASSWORD",
+      "description": "Пароль для Lavalink (можно оставить changeme)",
+      "env_variable": "LAVALINK_PASSWORD",
+      "default_value": "changeme",
+      "user_viewable": true,
+      "user_editable": true,
+      "required": true
+    }
+  ]
+}
