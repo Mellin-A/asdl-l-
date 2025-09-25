@@ -1,36 +1,34 @@
 {
-    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PANEL",
-    "meta": {
-        "version": "PLCN_v2",
-        "update_url": null
-    },
-    "exported_at": "2025-09-25T15:30:00+00:00",
-    "name": "Discord-MusicBot + Lavalink",
-    "author": "auto@egg",
-    "uuid": "d8f7a1bc-1234-4567-89ab-cdef12345678",
-    "description": "Автоматизированный Discord-MusicBot с локальным Lavalink. Пользователю нужно только ввести токен и ID.",
-    "tags": [],
-    "features": [
-        "pid_limit"
-    ],
-    "docker_images": {
-        "Node16-Java17": "ghcr.io/pterodactyl/yolks:nodejs_16-openjdk_17"
-    },
-    "file_denylist": [],
-    "startup": "bash /home/container/start.sh",
-    "config": {
-        "files": "{}",
-        "startup": "{\"done\":\"Started Launcher\"}",
-        "logs": "{}",
-        "stop": "stop"
-    },
-    "scripts": {
-        "installation": {
-            "script": "#!/bin/ash\napk add --no-cache git curl nodejs npm openjdk17\ncd /mnt/server\nrm -rf Discord-MusicBot\ngit clone https://github.com/SudhanPlayz/Discord-MusicBot.git\ncd Discord-MusicBot\nnpm install\ncd /mnt/server\nmkdir lavalink\ncd lavalink\ncurl -L https://github.com/freyacodes/Lavalink/releases/latest/download/Lavalink.jar -o Lavalink.jar\ncat > application.yml <<EOL\nserver:\n  port: {{server.allocations.default.port}}\nlavalink:\n  server:\n    password: \"${LAVALINK_PASSWORD}\"\nspring:\n  main:\n    banner-mode: \"off\"\nEOL\ncd /mnt/server\ncat > start.sh <<'EOF'\n#!/bin/bash\ncd /mnt/server/lavalink\njava -jar Lavalink.jar &\ncd /mnt/server/Discord-MusicBot\nnpm run deploy || true\nnode index.js\nEOF\nchmod +x start.sh",
-            "container": "ghcr.io/parkervcp/installers:alpine",
-            "entrypoint": "ash"
-        }
-    },
+	"_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PANEL",
+	"meta": {
+		"version": "PLCN_v2",
+		"update_url": null
+	},
+	"exported_at": "2025-09-25T15:00:00+00:00",
+	"name": "Discord-MusicBot + Lavalink",
+	"author": "generated@example.com",
+	"uuid": "a1b2c3d4-e5f6-4789-abcd-1234567890ab",
+	"description": "MusicBot Discord bot with Lavalink support, ready for Pterodactyl. Just fill in the Discord token and IDs.",
+	"tags": ["discord", "music", "bot", "lavalink"],
+	"features": ["pid_limit"],
+	"docker_images": {
+		"Node.js 16": "ghcr.io/pterodactyl/yolks:nodejs_16"
+	},
+	"file_denylist": [],
+	"startup": "node index.js",
+	"config": {
+		"files": "{}",
+		"startup": "{\"done\":\"Bot started\"}",
+		"logs": "{}",
+		"stop": "kill 1"
+	},
+	"scripts": {
+		"installation": {
+			"script": "#!/bin/ash\n# Install MusicBot dependencies and Lavalink\napk add --no-cache openjdk17 git curl bash\ncd /mnt/server\n# Clone MusicBot\nif [ ! -d MusicBot ]; then\n  git clone https://github.com/SudhanPlayz/Discord-MusicBot.git .\nfi\n# Install Node dependencies\nnpm install\n# Download Lavalink\nif [ ! -f Lavalink.jar ]; then\n  curl -L -o Lavalink.jar https://github.com/freyacodes/Lavalink/releases/download/3.10.10/Lavalink.jar\nfi",
+			"container": "ghcr.io/pterodactyl/installers:alpine",
+			"entrypoint": "ash"
+		}
+	},
 	"variables": [
 		{
 			"name": "BOT_TOKEN",
@@ -39,7 +37,7 @@
 			"default_value": "",
 			"user_viewable": true,
 			"user_editable": true,
-			"rules": ["required", "string"],
+			"rules": ["required","string"],
 			"sort": 1
 		},
 		{
@@ -49,7 +47,7 @@
 			"default_value": "",
 			"user_viewable": true,
 			"user_editable": true,
-			"rules": ["required", "string"],
+			"rules": ["required","string"],
 			"sort": 2
 		},
 		{
@@ -59,7 +57,7 @@
 			"default_value": "",
 			"user_viewable": true,
 			"user_editable": true,
-			"rules": ["required", "string"],
+			"rules": ["required","string"],
 			"sort": 3
 		},
 		{
@@ -69,7 +67,7 @@
 			"default_value": "",
 			"user_viewable": true,
 			"user_editable": true,
-			"rules": ["required", "string"],
+			"rules": ["required","string"],
 			"sort": 4
 		},
 		{
@@ -79,9 +77,8 @@
 			"default_value": "changeme",
 			"user_viewable": true,
 			"user_editable": true,
-			"rules": ["required", "string"],
+			"rules": ["required","string"],
 			"sort": 5
 		}
 	]
-
 }
